@@ -1,5 +1,6 @@
 package com.example.progetto
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -9,9 +10,11 @@ import com.example.progetto.data.database.ProjDAO
 import com.example.progetto.ui.screen.BoatScreen
 import com.example.progetto.ui.screen.HomeScreen
 import com.example.progetto.ui.screen.LoginForm
+import com.example.progetto.ui.screen.ProfileScreen
 import com.example.progetto.ui.screen.RegistrazioneScreen
 import com.example.progetto.ui.screen.ThemeState
 import com.example.progetto.ui.screen.ThemeViewModel
+import com.example.progetto.ui.screen.UserViewModel
 
 sealed class NavigationRoute (
     val route: String
@@ -27,11 +30,14 @@ sealed class NavigationRoute (
 }
 
 
+
+
 @Composable
 fun NavGraph (navController: NavHostController,
               modifier: Modifier = Modifier,
               themeState: ThemeState,
               themeViewModel: ThemeViewModel,
+              userViewModel: UserViewModel.UserViewModel,
               db: ProjDAO) {
     NavHost(
         navController = navController,
@@ -52,10 +58,12 @@ fun NavGraph (navController: NavHostController,
             composable(route) { RegistrazioneScreen(db, navController) }
         }
         with(NavigationRoute.Login) {
-            composable(route) { LoginForm(viewModel = ,  navController) }
+            composable(route) { LoginForm(userViewModel ,  navController) }
         }
         with(NavigationRoute.Gallery) {}
-        with(NavigationRoute.Profile) {}
+        with(NavigationRoute.Profile) {
+            composable(route) { ProfileScreen(navController)}
+        )}
     }
 }
 
