@@ -24,7 +24,9 @@ val appModule = module {
     ).build()
     }
 
-    single { ProjectRepository(get<ProjectDatabase>().DAO()) }
+    single { get<ProjectDatabase>().DAO() }
+
+    single { ProjectRepository(get(),get()) }
     
     viewModel { ThemeViewModel(get()) }
 }

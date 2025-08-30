@@ -4,6 +4,7 @@ import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
@@ -39,7 +40,8 @@ data class Boat(
             childColumns = ["userId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["idB"]), Index(value = ["userId"])]
 )
 data class Booking(
     @PrimaryKey(autoGenerate = true) val idBooking: Int=0,
@@ -54,7 +56,7 @@ data class Booking(
 @Entity
 data class Event(
     @PrimaryKey val idEvent: Int,
-    @ColumnInfo val date: Date,
+    @ColumnInfo val date: String,
     @ColumnInfo val description: String,
     @ColumnInfo val eventImg: String,
 )

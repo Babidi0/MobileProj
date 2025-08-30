@@ -2,7 +2,7 @@ package com.example.progetto.data.database
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-
+@Dao
 interface ProjDAO{
     //includi tutte le funzioni e query
 
@@ -31,7 +31,7 @@ interface ProjDAO{
     fun getAll(): Flow<List<User>>
 
     @Query("SELECT * from Event where idEvent = :idEvent")
-    fun getEvent(idEvent: Event)
+    fun getEvent(idEvent: Int): Event?
 
     /**/
     @Query("SELECT * FROM Register WHERE idUser = :userId")

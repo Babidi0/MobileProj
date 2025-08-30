@@ -14,6 +14,7 @@ data class ThemeState(val theme: Theme)
 class ThemeViewModel(
     private val repository: ProjectRepository
 ) : ViewModel() {
+
     val state = repository.theme.map { ThemeState(it) }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(),

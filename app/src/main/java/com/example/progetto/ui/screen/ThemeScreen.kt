@@ -11,6 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,6 +26,7 @@ fun ThemeScreen(
     state: ThemeState,
     onThemeSelected: (theme: Theme) -> Unit
 ) {
+
     Column(Modifier.selectableGroup()) {
         Theme.entries.forEach { theme ->
             Row(
@@ -43,9 +46,7 @@ fun ThemeScreen(
                     onClick = null
                 )
                 Text(
-                    text = stringResource(when (theme) {
-                        Theme.Light -> R.string
-                    }),
+                    text = theme.toString(),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(start = 16.dp)
                 )
