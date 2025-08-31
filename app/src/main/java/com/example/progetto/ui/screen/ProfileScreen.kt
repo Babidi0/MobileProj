@@ -35,10 +35,10 @@ import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun ProfileScreen( navController: NavHostController) {
+fun ProfileScreen( navController: NavHostController, viewModel: UserViewModel.UserViewModel) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(topBar = {
-        TopAppBar( navController = navController)
+        TopAppBar(navController,viewModel)
     },
         bottomBar = { BottomBar(navController = navController) }) {
         innerPadding ->

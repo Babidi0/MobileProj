@@ -31,20 +31,6 @@ import com.example.progetto.NavigationRoute
 
 import kotlinx.coroutines.launch
 
-
-@Composable
-fun PasswordTextField(){
-    var password by rememberSaveable { mutableStateOf("") }
-
-    TextField(
-        value = password,
-        onValueChange = {password = it},
-        label = { Text(text = "Enter password")},
-        visualTransformation = PasswordVisualTransformation(),
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-    )
-}
-
 @Composable
 fun LoginForm(viewModel: UserViewModel.UserViewModel,
               navController: NavHostController){
@@ -84,13 +70,17 @@ fun LoginForm(viewModel: UserViewModel.UserViewModel,
         Button(
             onClick = {
                 scope.launch {
-                    if (viewModel.login(username, password)) {
-                        navController.navigate(NavigationRoute.Home.route)
-                        /*i dati della registrazione li salvo in una sottospecie di variabile di sessione*/
-                    } else {
-                        errorMessage = "Credenziali non valide"
+                    viewModel.login(username, password) {success ->
+                        if (success) {
+                            navController.navigate(NavigationRoute.Home.route) {
+                                popUpTo(NavigationRoute.Login.route) {inclusive = true}
+                            }
+                        } else {
+                            errorMessage = "Credenziali non valide"
+                        }
                     }
                 }
+
             },
             modifier = Modifier.fillMaxWidth()
         ) {

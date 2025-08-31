@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.progetto.data.database.ProjDAO
 import com.example.progetto.ui.screen.BoatScreen
+import com.example.progetto.ui.screen.BookingScreen
 import com.example.progetto.ui.screen.HomeScreen
 import com.example.progetto.ui.screen.LoginForm
 import com.example.progetto.ui.screen.ProfileScreen
@@ -41,19 +42,21 @@ fun NavGraph (navController: NavHostController,
               db: ProjDAO) {
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.Home.route,
-        modifier
+        startDestination = NavigationRoute.Login.route,
+
     ) {
 
         /*tutti i campi e viewModel da inserire*/
-        val userVm =
+
 
         with(NavigationRoute.Home) {
             composable(route) { HomeScreen() }
         }
-        with(NavigationRoute.Boat) {
+        /*with(NavigationRoute.Boat) {
             composable(route) { BoatScreen() }
         }
+        */
+
         with(NavigationRoute.Register) {
             composable(route) { RegistrazioneScreen(db, navController) }
         }
@@ -61,9 +64,17 @@ fun NavGraph (navController: NavHostController,
             composable(route) { LoginForm(userViewModel ,  navController) }
         }
         with(NavigationRoute.Gallery) {}
+        
         with(NavigationRoute.Profile) {
-            composable(route) { ProfileScreen(navController)}
-        )}
+            composable(route) { ProfileScreen(navController,userViewModel)}
+        }
+        /*with(NavigationRoute.Booking) {
+            composable(route) { BookingScreen(bookingViewModel = , userId = ) {
+                
+            }}
+        }
+        */
+
     }
 }
 

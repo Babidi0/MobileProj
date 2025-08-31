@@ -9,6 +9,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BusinessCenter
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Contacts
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
@@ -32,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.progetto.NavigationRoute
+import com.example.progetto.ui.screen.UserViewModel
 import kotlinx.coroutines.launch
 
 
@@ -40,7 +44,8 @@ import kotlinx.coroutines.launch
 // [START android_compose_components_detaileddrawerexample]
 @Composable
 fun TopAppBar(
-     navController: NavHostController
+     navController: NavHostController,
+     viewModel: UserViewModel.UserViewModel
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -55,10 +60,11 @@ fun TopAppBar(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(Modifier.height(12.dp))
-                    Text("Drawer Title", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
+                    Text("Boat on Loan", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
 
                     NavigationDrawerItem(
                         label = { Text("Profilo") },
+                        icon = {Icon(Icons.Default.Contacts, contentDescription = "Home")},
                         selected = false,
                         onClick = { navController.navigate(NavigationRoute.Home.route) }
                     )
@@ -69,16 +75,24 @@ fun TopAppBar(
                         onClick = { navController.navigate(NavigationRoute.Home.route) }
                     )
                     NavigationDrawerItem(
-                        label = { Text("Prenotazioni") },
-                        icon = {Icon(Icons.Filled.BusinessCenter, contentDescription = "Prenotazioni")},
-                        selected = false,
-                        onClick = { /* Handle click */ }
-                    )
-                    NavigationDrawerItem(
                         label = { Text("Mappa") },
                         icon = {Icon(Icons.Default.LocationOn, contentDescription = "Mappa")},
                         selected = false,
                         onClick = { /* Handle click */ }
+                    )
+
+                    NavigationDrawerItem(
+                        label = { Text("Logout") },
+                        icon = {Icon(Icons.Default.Close, contentDescription = "Logout")},
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                viewModel.logout()
+                                navController.navigate(NavigationRoute.Login.route) {
+                                    popUpTo(0) {inclusive = true}
+                                }
+                            }
+                        }
                     )
 
                 }

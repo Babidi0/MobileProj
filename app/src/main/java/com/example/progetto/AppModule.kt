@@ -7,6 +7,7 @@ import com.example.progetto.data.database.ProjectDatabase
 import com.example.progetto.data.repositories.ProjectRepository
 import com.example.progetto.data.repositories.ThemeRepository
 import com.example.progetto.ui.screen.ThemeViewModel
+import com.example.progetto.ui.screen.UserViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -29,4 +30,6 @@ val appModule = module {
     single { ProjectRepository(get(),get()) }
     
     viewModel { ThemeViewModel(get()) }
+
+    viewModel { UserViewModel.UserViewModel(get(), get()) }
 }

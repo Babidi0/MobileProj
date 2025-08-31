@@ -10,7 +10,10 @@ interface ProjDAO{
     fun addUser(user: User)
 
     @Query("SELECT * FROM user WHERE username = :username")
-    suspend fun getUserByUsername(username: String): User?
+     fun getUserByUsername(username: String): User?
+
+    @Query("SELECT * FROM User WHERE id = :userId")
+    suspend fun getUserById(userId: Int): User?
 
     @Query("SELECT  * FROM Booking WHERE idB = :bookingId")
     fun getBookingInfo(bookingId: Int): Booking?

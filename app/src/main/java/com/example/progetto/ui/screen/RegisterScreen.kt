@@ -83,28 +83,28 @@ fun RegistrazioneScreen(dao: ProjDAO, navController: NavHostController) {
         OutlinedTextField(
             value = name,
             onValueChange = { name = it },
-            label = { Text("username") },
+            label = { Text("name") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = surname,
             onValueChange = { surname = it },
-            label = { Text("username") },
+            label = { Text("Surname") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = email,
             onValueChange = { email = it },
-            label = { Text("username") },
+            label = { Text("Email") },
             modifier = Modifier.fillMaxWidth()
         )
 
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("username") },
+            label = { Text("Password") },
             modifier = Modifier.fillMaxWidth()
         )
 
@@ -151,7 +151,9 @@ fun RegistrazioneScreen(dao: ProjDAO, navController: NavHostController) {
                     password = password,
                     Img = selectedImageUri?.toString() ?: "",
                     userDao = dao)
-                navController.navigate(NavigationRoute.Home.route)
+                navController.navigate(NavigationRoute.Home.route) {
+                    popUpTo(NavigationRoute.Register.route) {inclusive = true}
+                }
             },
             modifier = Modifier.fillMaxWidth()
         ) {

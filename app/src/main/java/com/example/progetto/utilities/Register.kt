@@ -20,7 +20,7 @@ fun registerUser(username: String, password: String,Img: String, userDao: ProjDA
     userDao.addUser(user)
 }
 
-suspend fun authenticateUser(username: String, password: String, userDao: ProjDAO): Boolean{
+ fun authenticateUser(username: String, password: String, userDao: ProjDAO): Boolean{
     val user = userDao.getUserByUsername(username) ?: return false
     return verifyPassword(password, user.passwordHash)
 

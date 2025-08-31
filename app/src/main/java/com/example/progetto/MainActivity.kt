@@ -27,8 +27,18 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.example.progetto.data.database.ProjDAO
+import com.example.progetto.data.database.ProjectDatabase
+import com.example.progetto.ui.screen.HomeScreen
+import com.example.progetto.ui.screen.LoginForm
+import com.example.progetto.ui.screen.ProfileScreen
 import com.example.progetto.ui.screen.ThemeScreen
 import com.example.progetto.ui.screen.ThemeViewModel
+import com.example.progetto.ui.screen.UserViewModel
 import com.example.progetto.ui.theme.ProgettoTheme
 import com.example.progetto.utilities.LocationService
 import com.example.progetto.utilities.PermissionStatus
@@ -43,6 +53,9 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val db = ProjectDatabase.getDatabase(applicationContext)
+        val dao = db!!.DAO()
         setContent {
 
 
@@ -80,7 +93,43 @@ class MainActivity : ComponentActivity() {
                 }
             }
             val themeViewModel = koinViewModel<ThemeViewModel>()
+            val userViewModel = koinViewModel<UserViewModel.UserViewModel>()
             val themeState by themeViewModel.state.collectAsStateWithLifecycle()
+            
+
+            ProgettoTheme(
+                darkTheme = when (themeState.theme) {
+                    com.example.progetto.data.models.Theme.Light -> false
+                    com.example.progetto.data.models.Theme.Dark -> true
+                    com.example.progetto.data.models.Theme.System -> isSystemInDarkTheme()
+                }
+            ) {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    val navController = rememberNavController()
+
+                    NavGraph(
+                        navController = navController,
+                        themeState = themeState,
+                        themeViewModel = themeViewModel,
+                        userViewModel = userViewModel,
+                        db = dao
+                    )
+                    /*
+                    NavHost(
+                        navController = navController,
+                        startDestination = "login"
+                    ) {
+                        composable("login") { LoginForm(userViewModel, navController) }
+                        composable("theme") { ThemeScreen(themeState, themeViewModel::changeTheme) }
+                    }
+
+                     */
+                }
+
+            }
 
             //funzione che gestisce l'utilizzo della fotocamera
             fun takePicture() =
@@ -97,26 +146,6 @@ class MainActivity : ComponentActivity() {
                     locationPermission.launchPermissionRequest()
                 }
 
-
-            /*
-            ProgettoTheme(darkTheme = when (themeState.theme) {
-                Theme.Dark -> true
-                Theme.Light -> false
-                Theme.System -> isSystemInDarkTheme()
-            }) {
-
-
-                }
-
-             */
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                  ThemeScreen(themeState, themeViewModel::changeTheme)
-                    Greeting("Android")
-                }
             }
         }
     }
