@@ -74,7 +74,7 @@ fun LoginForm(viewModel: UserViewModel,
                         if (success) {
 
                             navController.navigate(NavigationRoute.Home.route) {
-                                //popUpTo(NavigationRoute.Login.route) {inclusive = true}
+                                popUpTo(NavigationRoute.Login.route) {inclusive = true}
                             }
                         } else {
                             errorMessage = "Credenziali non valide"

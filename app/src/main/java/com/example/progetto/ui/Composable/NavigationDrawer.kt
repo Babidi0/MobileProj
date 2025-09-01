@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Anchor
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.material.icons.filled.Image
@@ -28,6 +29,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.progetto.NavigationRoute
@@ -36,15 +38,15 @@ import kotlinx.coroutines.launch
 
 
 
+// TopBar.kt
 @OptIn(ExperimentalMaterial3Api::class)
-// [START android_compose_components_detaileddrawerexample]
 @Composable
 fun TopBar(
-     navController: NavHostController,
-     viewModel: UserViewModel
+    navController: NavHostController,
+    viewModel: UserViewModel,
+    content: @Composable () -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val scope = rememberCoroutineScope()
 
     ModalNavigationDrawer(
@@ -56,41 +58,70 @@ fun TopBar(
                         .verticalScroll(rememberScrollState())
                 ) {
                     Spacer(Modifier.height(12.dp))
-                    Text("Boat on Loan", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
+                    Text(
+                        "Boat on Loan",
+                        modifier = Modifier.padding(16.dp),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+
+                    NavigationDrawerItem(
+                        label = { Text("Home") },
+                        icon = { Icon(Icons.Default.Anchor, contentDescription = null) },
+                        selected = false,
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            navController.navigate(NavigationRoute.Home.route) {
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
 
                     NavigationDrawerItem(
                         label = { Text("Profile") },
-                        icon = {Icon(Icons.Default.Contacts, contentDescription = "Home")},
+                        icon = { Icon(Icons.Default.Contacts, contentDescription = null) },
                         selected = false,
-                        onClick = { navController.navigate(NavigationRoute.Profile.route) }
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            navController.navigate(NavigationRoute.Profile.route) {
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
                     )
+
                     NavigationDrawerItem(
                         label = { Text("Booking") },
-                        icon = {Icon(Icons.Filled.Image, contentDescription = "Galleria")},
+                        icon = { Icon(Icons.Default.Image, contentDescription = null) },
                         selected = false,
-                        onClick = { navController.navigate(NavigationRoute.Booking.route) }
-                    )
-                    NavigationDrawerItem(
-                        label = { Text("Map") },
-                        icon = {Icon(Icons.Default.LocationOn, contentDescription = "Mappa")},
-                        selected = false,
-                        onClick = { /* Handle click */ }
+                        onClick = {
+                            scope.launch { drawerState.close() }
+                            navController.navigate(NavigationRoute.Booking.route) {
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
                     )
 
                     NavigationDrawerItem(
                         label = { Text("Logout") },
-                        icon = {Icon(Icons.Default.Close, contentDescription = "Logout")},
+                        icon = { Icon(Icons.Default.Close, contentDescription = null) },
                         selected = false,
                         onClick = {
                             scope.launch {
                                 viewModel.logout()
                                 navController.navigate(NavigationRoute.Login.route) {
-                                    popUpTo(0) {inclusive = true}
+                                    popUpTo(0) { inclusive = true }
                                 }
                             }
                         }
                     )
-
+                    NavigationDrawerItem(
+                        label = { Text("Boats") },
+                        icon = { Icon(Icons.Default.Image, contentDescription = "Boats") },
+                        selected = false,
+                        onClick = { navController.navigate(NavigationRoute.Boat.route) }
+                    )
                 }
             }
         },
@@ -103,21 +134,22 @@ fun TopBar(
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch {
-                                if (drawerState.isClosed) {
-                                    drawerState.open()
-                                } else {
-                                    drawerState.close()
-                                }
+                                if (drawerState.isClosed) drawerState.open() else drawerState.close()
                             }
                         }) {
                             Icon(Icons.Default.Menu, contentDescription = "Menu")
                         }
                     },
-                    scrollBehavior = scrollBehavior
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                        containerColor = Color(0xFF2196F3),
+                        titleContentColor = Color.White)
                 )
             }
         ) { innerPadding ->
-            Modifier.padding(innerPadding)
+            Column(modifier = Modifier.padding(innerPadding)) {
+                content()
+            }
         }
     }
 }
+

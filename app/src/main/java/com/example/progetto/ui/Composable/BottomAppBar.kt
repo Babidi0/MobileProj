@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import com.example.progetto.NavigationRoute
 
+// BottomBar.kt
 @Composable
 fun BottomBar(navController: NavHostController) {
     BottomAppBar(
@@ -26,14 +27,11 @@ fun BottomBar(navController: NavHostController) {
                     navController.navigate(NavigationRoute.Home.route) {
                         launchSingleTop = true
                         restoreState = true
-                        popUpTo(NavigationRoute.Home.route) { inclusive = false }
                     }
-                },
-                modifier = Modifier.align(Alignment.CenterVertically)
+                }
             ) {
                 Icon(Icons.Default.Anchor, contentDescription = "Home")
             }
-            Spacer(Modifier.weight(1f))
         },
         floatingActionButton = {
             FloatingActionButton(

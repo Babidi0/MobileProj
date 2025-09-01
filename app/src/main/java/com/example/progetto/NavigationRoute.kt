@@ -1,5 +1,6 @@
 package com.example.progetto
 
+import TopBar
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +18,7 @@ import com.example.progetto.ui.screen.BookingScreen
 import com.example.progetto.ui.screen.BookingState
 import com.example.progetto.ui.screen.BookingViewModel
 import com.example.progetto.ui.screen.HomeScreen
+import com.example.progetto.ui.screen.LoadingScreen
 import com.example.progetto.ui.screen.LoginForm
 import com.example.progetto.ui.screen.ProfileScreen
 import com.example.progetto.ui.screen.RegistrazioneScreen
@@ -25,6 +27,11 @@ import com.example.progetto.ui.screen.ThemeState
 import com.example.progetto.ui.screen.ThemeViewModel
 import com.example.progetto.ui.screen.UserViewModel
 import org.koin.androidx.compose.koinViewModel
+import androidx.compose.runtime.LaunchedEffect
+import com.example.progetto.ui.Composable.BottomBar
+import com.example.progetto.utilities.BookingFormWrapper
+import com.example.progetto.utilities.BookingScreenWrapper
+
 
 sealed class NavigationRoute (
     val route: String
@@ -42,69 +49,82 @@ sealed class NavigationRoute (
 }
 
 
-
-
 @Composable
-fun NavGraph (navController: NavHostController,
-              modifier: Modifier = Modifier,
-              themeState: ThemeState,
-              themeViewModel: ThemeViewModel,
-              bookingViewModel: BookingViewModel,
-              userViewModel: UserViewModel,
-              repository: ProjectRepository,
-              db: ProjDAO) {
+fun NavGraph(
+    navController: NavHostController,
+    themeState: ThemeState,
+    themeViewModel: ThemeViewModel,
+    bookingViewModel: BookingViewModel,
+    userViewModel: UserViewModel,
+    repository: ProjectRepository,
+    db: ProjDAO
+) {
+    val sessionUser by repository.sessionUser.collectAsState(initial = null)
 
-    val sessionUser by repository.sessionUser.collectAsState(initial = null )
-    val userId = sessionUser?.first
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.Login.route,
-
+        startDestination = NavigationRoute.Login.route
     ) {
-
-
-        with(NavigationRoute.Home) {
-            composable(route) { HomeScreen(navController,userViewModel) }
+        // --- Login ---
+        composable(NavigationRoute.Login.route) {
+            LoginForm(userViewModel, navController)
         }
 
-        with(NavigationRoute.Register) {
-            composable(route) { RegistrazioneScreen(db, navController,userViewModel) }
+        // --- Registrazione ---
+        composable(NavigationRoute.Register.route) {
+            RegistrazioneScreen(db, navController, userViewModel)
         }
-        with(NavigationRoute.Login) {
-            composable(route) { LoginForm(userViewModel ,  navController) }
-        }
-        with(NavigationRoute.BookingForm) {
-            composable(route) {
-                if (userId != null) {
-                    BookingForm(
-                        bookingViewModel = bookingViewModel,
-                        userId = userId,
-                        navController = navController,
-                        viewModel = userViewModel
-                    )
-                } else {
-                    // Se vuoi, puoi mostrare una schermata di errore, loading, o redirect al login
-                    Text("Errore: utente non autenticato.")
-                }
+
+        // --- Home ---
+        composable(NavigationRoute.Home.route) {
+            TopBar(navController, userViewModel) {
+                HomeScreen(navController, userViewModel)
+                BottomBar(navController)
             }
         }
 
-        with(NavigationRoute.Boat) {
-            composable(route) { BoatScreen(navController = navController, viewModel = userViewModel)}
-        }
-        
-        with(NavigationRoute.Profile) {
-            composable(route) { ProfileScreen(navController,userViewModel,db,repository)}
-        }
-        with(NavigationRoute.Booking) {
-            composable(route) { BookingState(bookingViewModel = bookingViewModel, repository, navController, userViewModel)}
-        }
-        with(NavigationRoute.Theme) {
-            composable(route) { ThemeScreen(themeState, themeViewModel::changeTheme, navController, userViewModel) }
+        // --- Profile ---
+        composable(NavigationRoute.Profile.route) {
+            TopBar(navController, userViewModel) {
+                ProfileScreen(navController, userViewModel, db, repository)
+                BottomBar(navController)
+            }
         }
 
+        // --- Booking ---
+        composable(NavigationRoute.Booking.route) {
+            TopBar(navController, userViewModel) {
+                if (sessionUser != null) {
+                    BookingState(bookingViewModel, repository, navController, userViewModel)
+                } else {
+                    Text("Loading...")
+                }
+                BottomBar(navController)
+            }
+        }
 
+        composable(NavigationRoute.BookingForm.route) {
+            BookingForm(
+                bookingViewModel = bookingViewModel,
+                userId = sessionUser!!.first,
+                navController = navController,
+                viewModel = userViewModel
+            )
+        }
+
+        composable(NavigationRoute.Theme.route) {
+            ThemeScreen(themeState, themeViewModel::changeTheme, navController, userViewModel)
+        }
+        composable(NavigationRoute.Boat.route) {
+            TopBar(navController, userViewModel) {
+                BoatScreen()
+                BottomBar(navController)
+            }
+        }
     }
 }
+
+
+
 
 

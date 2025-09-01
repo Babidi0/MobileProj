@@ -32,11 +32,6 @@ fun ThemeScreen(
     navController: NavHostController,
     viewModel: UserViewModel,
 ) {
-    Scaffold(topBar = {
-        TopBar(navController,viewModel)
-    },
-        bottomBar = { BottomBar(navController) }) {
-        innerPadding ->
 
         Column(Modifier.selectableGroup()) {
             Theme.entries.forEach { theme ->
@@ -49,7 +44,7 @@ fun ThemeScreen(
                             onClick = { onThemeSelected(theme) },
                             role = Role.RadioButton
                         )
-                        .padding(innerPadding),
+                        .padding(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
@@ -64,7 +59,7 @@ fun ThemeScreen(
                 }
             }
         }
-    }
+
 
 
 }

@@ -39,48 +39,19 @@ fun ProfileScreen( navController: NavHostController, viewModel: UserViewModel, d
 
     val sessionUser by repository.sessionUser.collectAsState(initial = null)
 
-    /*if (sessionUser != null) {
-        val userId = sessionUser!!.first
-    }
-     */
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
-
-    /*var username = sessionUser?.let { dao.getUsernameFromId(it.first) }
-    var imgUrl = sessionUser?.let { dao.getUserImg(it.first) }
-
-     */
-    Scaffold(topBar = {
-        TopBar(navController,viewModel)
-    },
-        bottomBar = { BottomBar(navController = navController) }) {
-        innerPadding ->
-
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(innerPadding)
-                .nestedScroll(scrollBehavior.nestedScrollConnection),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            contentPadding = PaddingValues(vertical = 16.dp)
-        ) {
-            item {
-                Box(
-                    Modifier
-                        .size(120.dp)
-                        .clip(CircleShape)
-                        .background(Color.Gray)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text("Nome Utente")
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(
-                    text = "Prenotazioni Effettuate",
-                    style = MaterialTheme.typography.titleMedium
-                )
-            }
-
-            /*lista di item con le prenotazioni, sarà da fare una list estrendo dal db*/
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = PaddingValues(vertical = 16.dp)
+    ) {
+        item {
+            Box(
+                Modifier.size(120.dp).clip(CircleShape).background(Color.Gray)
+            )
+            Spacer(Modifier.height(16.dp))
+            Text("Nome Utente")
+            Spacer(Modifier.height(24.dp))
+            Text("Prenotazioni Effettuate", style = MaterialTheme.typography.titleMedium)
         }
     }
 }

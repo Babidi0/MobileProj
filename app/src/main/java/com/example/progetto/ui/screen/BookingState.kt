@@ -4,6 +4,7 @@ import TopBar
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -38,36 +39,22 @@ fun BookingState(bookingViewModel: BookingViewModel, repository: ProjectReposito
 }
 
 @Composable
-fun BookingScreen(userId:Int, bookingViewModel: BookingViewModel, navController: NavHostController, viewModel: UserViewModel) {
+fun BookingScreen(userId:Int?, bookingViewModel: BookingViewModel, navController: NavHostController, viewModel: UserViewModel) {
 
-    val context = LocalContext.current
     var currentBooking by remember { mutableStateOf<Booking?>(null) }
 
     LaunchedEffect(userId) {
-        currentBooking = bookingViewModel.getCurrentBooking(userId)
+        userId?.let {
+            currentBooking = bookingViewModel.getCurrentBooking(it)
+        }
     }
 
-    Scaffold(
-        topBar = {TopBar(navController = navController, viewModel = viewModel)},
-        bottomBar = { BottomBar(navController = navController) }
-    ) { innerPadding ->
-
-        Column(modifier = Modifier.padding(innerPadding)) {
-            currentBooking?.let { booking ->
-                Text("Prenotazione")
-                Text("Barca ID: ${booking.idB}")
-                Text("Data: ${booking.date}")
-                Text("Numero persone: ${booking.number}")
-
-                Spacer(Modifier.height(16.dp))
-                Button(onClick = {
-                    bookingViewModel.closeBooking(booking.idBooking)
-                    Toast.makeText(context, "Prenotazione chiusa", Toast.LENGTH_SHORT).show()
-                    currentBooking = null
-                }) {
-                    Text("Chiudi prenotazione")
-                }
-            }
-        }
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        currentBooking?.let { booking ->
+            Text("Prenotazione")
+            Text("Barca ID: ${booking.idB}")
+            Text("Data: ${booking.date}")
+            Text("Numero persone: ${booking.number}")
+        } ?: Text("Nessuna prenotazione")
     }
 }
