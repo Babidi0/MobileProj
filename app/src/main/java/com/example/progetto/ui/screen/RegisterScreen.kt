@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,19 +30,20 @@ import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
 import com.example.progetto.NavigationRoute
 import com.example.progetto.data.database.ProjDAO
-import com.example.progetto.utilities.registerUser
 import com.example.progetto.utilities.rememberCameraLauncher
 import com.example.progetto.utilities.rememberPermission
+import kotlinx.coroutines.launch
 
 
 @Composable
-fun RegistrazioneScreen(dao: ProjDAO, navController: NavHostController) {
+fun RegistrazioneScreen(dao: ProjDAO, navController: NavHostController, userViewModel: UserViewModel) {
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var name by remember { mutableStateOf("") }
     var surname by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
 
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
@@ -147,13 +149,26 @@ fun RegistrazioneScreen(dao: ProjDAO, navController: NavHostController) {
 
         Button(
             onClick = {
-                registerUser(username = username,
-                    password = password,
-                    Img = selectedImageUri?.toString() ?: "",
-                    userDao = dao)
-                navController.navigate(NavigationRoute.Home.route) {
-                    popUpTo(NavigationRoute.Register.route) {inclusive = true}
+                scope.launch {
+                    // Registrazione utente
+                    userViewModel.registerUser(
+                        username = username,
+                        password = password,
+                        img = selectedImageUri?.toString() ?: "",
+                        email = email,
+                        name = name,
+                        surname = surname
+                    ) { success ->
+                        if (success) {
+                            navController.navigate(NavigationRoute.Home.route) {
+                                popUpTo(NavigationRoute.Register.route) { inclusive = true }
+                            }
+                        } else {
+                            // Mostra messaggio di errore
+                        }
+                    }
                 }
+
             },
             modifier = Modifier.fillMaxWidth()
         ) {

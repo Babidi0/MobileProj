@@ -20,7 +20,7 @@ import androidx.navigation.NavHostController
 import com.example.progetto.ui.Composable.BottomBar
 
 @Composable
-fun HomeScreen(navController: NavHostController, viewModel: UserViewModel.UserViewModel) {
+fun HomeScreen(navController: NavHostController, viewModel: UserViewModel) {
     Scaffold(
         topBar = {TopBar(navController = navController, viewModel = viewModel)},
         bottomBar = { BottomBar(navController = navController) }

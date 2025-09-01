@@ -4,7 +4,7 @@ import androidx.room.*
 import androidx.room.Database
 
 
-@Database(entities = [User::class, Boat::class, Booking::class, Event::class,Register::class], version = 1)
+@Database(entities = [User::class, Boat::class, Booking::class, Event::class,Register::class], version = 2)
     abstract class ProjectDatabase : RoomDatabase() {
         abstract fun DAO() : ProjDAO
 
@@ -18,7 +18,8 @@ import androidx.room.Database
                         ctx,
                         ProjectDatabase::class.java,
                         "Project"
-                    ).build()
+                    ).fallbackToDestructiveMigration()
+                        .build()
                     instance
                 }
         }

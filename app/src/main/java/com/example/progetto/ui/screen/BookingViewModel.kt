@@ -19,7 +19,8 @@ class BookingViewModel(private val dao: ProjDAO) : ViewModel() {
         return dao.getRegisterByUserId(userId)
     }
 
-    fun getCurrentBooking(userId: Int): Booking? {
+    suspend fun getCurrentBooking(userId: Int): Booking? {
+
         return dao.getBookingForUser(userId)
     }
 

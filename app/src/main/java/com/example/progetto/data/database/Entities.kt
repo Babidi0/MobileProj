@@ -13,7 +13,10 @@ data class User(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo val username: String,
     @ColumnInfo val userImg: String?,
-    @ColumnInfo val passwordHash: String,//Memorizza l'hash della password
+    @ColumnInfo val passwordHash: String,
+    @ColumnInfo val name: String,
+    @ColumnInfo val surname: String,
+    @ColumnInfo val email: String,//Memorizza l'hash della password
     //val salt: String? = null,//stringa da codificare
     //val iterations: Int? = null//numero di iterazioni usate per l'hashing
 )

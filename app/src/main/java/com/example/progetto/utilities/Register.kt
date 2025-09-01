@@ -13,14 +13,16 @@ fun verifyPassword(password: String, hashedPassword: String): Boolean {
     return BCrypt.checkpw(password, hashedPassword)
 }
 
-fun registerUser(username: String, password: String,Img: String, userDao: ProjDAO){
+/*suspend fun registerUser(username: String, password: String, Img: String, userDao: ProjDAO){
     val hashedPassword = hashPassword(password)
     //aggiungi una fun per aggiungere delle immagini
     val user = User(username = username, passwordHash = hashedPassword , userImg = Img)
     userDao.addUser(user)
 }
 
- fun authenticateUser(username: String, password: String, userDao: ProjDAO): Boolean{
+ */
+
+ suspend fun authenticateUser(username: String, password: String, userDao: ProjDAO): Boolean{
     val user = userDao.getUserByUsername(username) ?: return false
     return verifyPassword(password, user.passwordHash)
 

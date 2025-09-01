@@ -20,7 +20,7 @@ import java.util.Locale
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookingForm(bookingViewModel: BookingViewModel,
-                userId:Int, navController: NavHostController, viewModel: UserViewModel.UserViewModel) {
+                userId:Int, navController: NavHostController, viewModel: UserViewModel) {
 
 
     var boatId by remember { mutableStateOf("") }
@@ -131,26 +131,5 @@ fun BookingForm(bookingViewModel: BookingViewModel,
                     onDismiss = {datePicker = false})
             }
     }
-
-
-
-
-
-
-        /*Button(
-            onClick = {
-                val num = persone.toIntOrNull() ?: 1
-                Toast.makeText(
-                    context,
-                    "Prenotazione per $nome il $data ($num persone)",
-                    Toast.LENGTH_SHORT
-                ).show()
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Prenota")
-        }
-
-         */
     }
 }

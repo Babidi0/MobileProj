@@ -96,7 +96,7 @@ class MainActivity : ComponentActivity() {
             }
             val themeViewModel = koinViewModel<ThemeViewModel>()
             val bookingViewModel = koinViewModel<BookingViewModel>()
-            val userViewModel = koinViewModel<UserViewModel.UserViewModel>()
+            val userViewModel = koinViewModel<UserViewModel>()
             val themeState by themeViewModel.state.collectAsStateWithLifecycle()
             val repository = ProjectRepository(dao,applicationContext.dataStore)
             
@@ -155,21 +155,3 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ProgettoTheme {
-        Greeting("Android")
-    }
-}

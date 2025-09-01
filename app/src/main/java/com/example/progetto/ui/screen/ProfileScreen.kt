@@ -35,7 +35,7 @@ import com.example.progetto.ui.Composable.BottomBar
 
 
 @Composable
-fun ProfileScreen( navController: NavHostController, viewModel: UserViewModel.UserViewModel, dao: ProjDAO, repository: ProjectRepository) {
+fun ProfileScreen( navController: NavHostController, viewModel: UserViewModel, dao: ProjDAO, repository: ProjectRepository) {
 
     val sessionUser by repository.sessionUser.collectAsState(initial = null)
 

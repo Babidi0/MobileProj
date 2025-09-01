@@ -21,15 +21,28 @@ import com.example.progetto.NavigationRoute
 fun BottomBar(navController: NavHostController) {
     BottomAppBar(
         actions = {
-            IconButton(onClick = {  navController.navigate(NavigationRoute.Home.route) },
-                        modifier = Modifier.align( Alignment.CenterVertically)) {
+            IconButton(
+                onClick = {
+                    navController.navigate(NavigationRoute.Home.route) {
+                        launchSingleTop = true
+                        restoreState = true
+                        popUpTo(NavigationRoute.Home.route) { inclusive = false }
+                    }
+                },
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
                 Icon(Icons.Default.Anchor, contentDescription = "Home")
             }
             Spacer(Modifier.weight(1f))
         },
         floatingActionButton = {
             FloatingActionButton(
-                onClick = {  navController.navigate(NavigationRoute.Booking.route) },
+                onClick = {
+                    navController.navigate(NavigationRoute.BookingForm.route) {
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
                 containerColor = Color.Magenta
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Nuova prenotazione")

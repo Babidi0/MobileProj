@@ -1,6 +1,7 @@
 package com.example.progetto
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -33,7 +34,7 @@ sealed class NavigationRoute (
     data object Boat: NavigationRoute("Boat")
     data object Booking: NavigationRoute("Booking")
     data object Register: NavigationRoute("Register")
-    data object BookingForm: NavigationRoute("Gallery")
+    data object BookingForm: NavigationRoute("BookingForm")
     data object Login: NavigationRoute("Login")
 
     data object Theme:NavigationRoute("Theme")
@@ -49,7 +50,7 @@ fun NavGraph (navController: NavHostController,
               themeState: ThemeState,
               themeViewModel: ThemeViewModel,
               bookingViewModel: BookingViewModel,
-              userViewModel: UserViewModel.UserViewModel,
+              userViewModel: UserViewModel,
               repository: ProjectRepository,
               db: ProjDAO) {
 
@@ -67,17 +68,23 @@ fun NavGraph (navController: NavHostController,
         }
 
         with(NavigationRoute.Register) {
-            composable(route) { RegistrazioneScreen(db, navController) }
+            composable(route) { RegistrazioneScreen(db, navController,userViewModel) }
         }
         with(NavigationRoute.Login) {
             composable(route) { LoginForm(userViewModel ,  navController) }
         }
         with(NavigationRoute.BookingForm) {
-            //BookingForm(bookingViewModel = bookingViewModel, userId = userId)
             composable(route) {
-                userId?.let {
-                    BookingForm(bookingViewModel = bookingViewModel, id, navController, userViewModel)
-
+                if (userId != null) {
+                    BookingForm(
+                        bookingViewModel = bookingViewModel,
+                        userId = userId,
+                        navController = navController,
+                        viewModel = userViewModel
+                    )
+                } else {
+                    // Se vuoi, puoi mostrare una schermata di errore, loading, o redirect al login
+                    Text("Errore: utente non autenticato.")
                 }
             }
         }

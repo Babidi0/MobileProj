@@ -25,7 +25,7 @@ import com.example.progetto.data.repositories.ProjectRepository
 import com.example.progetto.ui.Composable.BottomBar
 
 @Composable
-fun BookingState(bookingViewModel: BookingViewModel, repository: ProjectRepository,navController: NavHostController, viewModel: UserViewModel.UserViewModel) {
+fun BookingState(bookingViewModel: BookingViewModel, repository: ProjectRepository,navController: NavHostController, viewModel: UserViewModel) {
 
     val sessionUser by repository.sessionUser.collectAsState(initial = null)
 
@@ -38,7 +38,7 @@ fun BookingState(bookingViewModel: BookingViewModel, repository: ProjectReposito
 }
 
 @Composable
-fun BookingScreen(userId:Int, bookingViewModel: BookingViewModel, navController: NavHostController, viewModel: UserViewModel.UserViewModel) {
+fun BookingScreen(userId:Int, bookingViewModel: BookingViewModel, navController: NavHostController, viewModel: UserViewModel) {
 
     val context = LocalContext.current
     var currentBooking by remember { mutableStateOf<Booking?>(null) }

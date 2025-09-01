@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopBar(
      navController: NavHostController,
-     viewModel: UserViewModel.UserViewModel
+     viewModel: UserViewModel
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -62,7 +62,7 @@ fun TopBar(
                         label = { Text("Profile") },
                         icon = {Icon(Icons.Default.Contacts, contentDescription = "Home")},
                         selected = false,
-                        onClick = { navController.navigate(NavigationRoute.Home.route) }
+                        onClick = { navController.navigate(NavigationRoute.Profile.route) }
                     )
                     NavigationDrawerItem(
                         label = { Text("Booking") },
@@ -99,7 +99,7 @@ fun TopBar(
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text("Boating") },
+                    title = { Text("BoatOnLoan") },
                     navigationIcon = {
                         IconButton(onClick = {
                             scope.launch {

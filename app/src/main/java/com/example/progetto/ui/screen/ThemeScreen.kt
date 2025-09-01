@@ -30,7 +30,7 @@ fun ThemeScreen(
     state: ThemeState,
     onThemeSelected: (theme: Theme) -> Unit,
     navController: NavHostController,
-    viewModel: UserViewModel.UserViewModel,
+    viewModel: UserViewModel,
 ) {
     Scaffold(topBar = {
         TopBar(navController,viewModel)

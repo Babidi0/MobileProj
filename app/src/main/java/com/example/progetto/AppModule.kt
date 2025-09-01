@@ -32,7 +32,7 @@ val appModule = module {
     
     viewModel { ThemeViewModel(get()) }
 
-    viewModel { UserViewModel.UserViewModel(get(), get()) }
+    viewModel { UserViewModel(get(), get()) }
 
     viewModel { BookingViewModel(get()) }
 }

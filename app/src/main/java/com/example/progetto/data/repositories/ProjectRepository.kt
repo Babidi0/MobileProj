@@ -55,6 +55,13 @@ class ProjectRepository(private val projDAO: ProjDAO, private val dataStore: Dat
             null
         }
     }
+    suspend fun getUserByUsername(username: String): User? {
+        return projDAO.getUserByUsername(username)
+    }
+
+    suspend fun addUser(user: User) {
+        projDAO.addUser(user)
+    }
 
     suspend fun logout() {
         dataStore.edit { preferences ->

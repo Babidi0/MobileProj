@@ -32,7 +32,7 @@ import com.example.progetto.NavigationRoute
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginForm(viewModel: UserViewModel.UserViewModel,
+fun LoginForm(viewModel: UserViewModel,
               navController: NavHostController){
 
     var username by remember { mutableStateOf("") }
@@ -72,8 +72,9 @@ fun LoginForm(viewModel: UserViewModel.UserViewModel,
                 scope.launch {
                     viewModel.login(username, password) {success ->
                         if (success) {
+
                             navController.navigate(NavigationRoute.Home.route) {
-                                popUpTo(NavigationRoute.Login.route) {inclusive = true}
+                                //popUpTo(NavigationRoute.Login.route) {inclusive = true}
                             }
                         } else {
                             errorMessage = "Credenziali non valide"
