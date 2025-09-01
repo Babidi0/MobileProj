@@ -33,6 +33,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import com.example.progetto.data.database.ProjDAO
 import com.example.progetto.data.database.ProjectDatabase
+import com.example.progetto.data.repositories.ProjectRepository
+import com.example.progetto.ui.screen.BookingViewModel
 import com.example.progetto.ui.screen.HomeScreen
 import com.example.progetto.ui.screen.LoginForm
 import com.example.progetto.ui.screen.ProfileScreen
@@ -93,8 +95,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
             val themeViewModel = koinViewModel<ThemeViewModel>()
+            val bookingViewModel = koinViewModel<BookingViewModel>()
             val userViewModel = koinViewModel<UserViewModel.UserViewModel>()
             val themeState by themeViewModel.state.collectAsStateWithLifecycle()
+            val repository = ProjectRepository(dao,applicationContext.dataStore)
             
 
             ProgettoTheme(
@@ -115,7 +119,9 @@ class MainActivity : ComponentActivity() {
                         themeState = themeState,
                         themeViewModel = themeViewModel,
                         userViewModel = userViewModel,
-                        db = dao
+                        db = dao,
+                        repository = repository,
+                        bookingViewModel = bookingViewModel
                     )
                     /*
                     NavHost(

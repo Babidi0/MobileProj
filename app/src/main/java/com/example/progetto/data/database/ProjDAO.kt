@@ -40,6 +40,23 @@ interface ProjDAO{
     @Query("SELECT * FROM Register WHERE idUser = :userId")
     suspend fun getRegisterByUserId(userId: Int): Register?
 
+    @Query("SELECT * FROM Booking WHERE userId= :userId")
+    fun getBookingForUser(userId: Int):Booking?
+
+    @Query("DELETE FROM Booking WHERE idBooking = :idBooking")
+    suspend fun deleteBooking(idBooking: Int)
+
+   /* @Query("SELECT userImg FROM user WHERE id = :userId")
+    fun getUserImg(userId: Int)
+
+    @Query("SELECT username FROM user WHERE id = :userId")
+    fun getUsernameFromId(userId: Int)
+
+    */
+
+
+
+
 
 
 

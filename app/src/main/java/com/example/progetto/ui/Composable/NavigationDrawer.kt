@@ -1,17 +1,14 @@
 
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.BusinessCenter
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Contacts
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
@@ -26,7 +23,6 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
@@ -43,7 +39,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 // [START android_compose_components_detaileddrawerexample]
 @Composable
-fun TopAppBar(
+fun TopBar(
      navController: NavHostController,
      viewModel: UserViewModel.UserViewModel
 ) {
@@ -63,19 +59,19 @@ fun TopAppBar(
                     Text("Boat on Loan", modifier = Modifier.padding(16.dp), style = MaterialTheme.typography.titleLarge)
 
                     NavigationDrawerItem(
-                        label = { Text("Profilo") },
+                        label = { Text("Profile") },
                         icon = {Icon(Icons.Default.Contacts, contentDescription = "Home")},
                         selected = false,
                         onClick = { navController.navigate(NavigationRoute.Home.route) }
                     )
                     NavigationDrawerItem(
-                        label = { Text("Galleria") },
+                        label = { Text("Booking") },
                         icon = {Icon(Icons.Filled.Image, contentDescription = "Galleria")},
                         selected = false,
-                        onClick = { navController.navigate(NavigationRoute.Home.route) }
+                        onClick = { navController.navigate(NavigationRoute.Booking.route) }
                     )
                     NavigationDrawerItem(
-                        label = { Text("Mappa") },
+                        label = { Text("Map") },
                         icon = {Icon(Icons.Default.LocationOn, contentDescription = "Mappa")},
                         selected = false,
                         onClick = { /* Handle click */ }

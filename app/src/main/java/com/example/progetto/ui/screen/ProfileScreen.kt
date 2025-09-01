@@ -3,10 +3,9 @@ package com.example.progetto.ui.screen
 
 
 
-import TopAppBar
+import TopBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.ui.Modifier
@@ -16,29 +15,43 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.progetto.data.database.ProjDAO
+import com.example.progetto.data.repositories.ProjectRepository
 import com.example.progetto.ui.Composable.BottomBar
-import kotlinx.coroutines.CoroutineScope
 
 
 @Composable
-fun ProfileScreen( navController: NavHostController, viewModel: UserViewModel.UserViewModel) {
+fun ProfileScreen( navController: NavHostController, viewModel: UserViewModel.UserViewModel, dao: ProjDAO, repository: ProjectRepository) {
+
+    val sessionUser by repository.sessionUser.collectAsState(initial = null)
+
+    /*if (sessionUser != null) {
+        val userId = sessionUser!!.first
+    }
+     */
+
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+
+    /*var username = sessionUser?.let { dao.getUsernameFromId(it.first) }
+    var imgUrl = sessionUser?.let { dao.getUserImg(it.first) }
+
+     */
     Scaffold(topBar = {
-        TopAppBar(navController,viewModel)
+        TopBar(navController,viewModel)
     },
         bottomBar = { BottomBar(navController = navController) }) {
         innerPadding ->

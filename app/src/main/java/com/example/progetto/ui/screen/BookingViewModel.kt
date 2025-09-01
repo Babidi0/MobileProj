@@ -18,6 +18,17 @@ class BookingViewModel(private val dao: ProjDAO) : ViewModel() {
     suspend fun getRegister(userId: Int): Register? {
         return dao.getRegisterByUserId(userId)
     }
+
+    fun getCurrentBooking(userId: Int): Booking? {
+        return dao.getBookingForUser(userId)
+    }
+
+    fun closeBooking(idBooking: Int) {
+        viewModelScope.launch {
+            dao.deleteBooking(idBooking)
+        }
+    }
+
 }
 
 

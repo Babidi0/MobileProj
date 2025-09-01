@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.progetto.data.database.ProjectDatabase
 import com.example.progetto.data.repositories.ProjectRepository
 import com.example.progetto.data.repositories.ThemeRepository
+import com.example.progetto.ui.screen.BookingViewModel
 import com.example.progetto.ui.screen.ThemeViewModel
 import com.example.progetto.ui.screen.UserViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -32,4 +33,6 @@ val appModule = module {
     viewModel { ThemeViewModel(get()) }
 
     viewModel { UserViewModel.UserViewModel(get(), get()) }
+
+    viewModel { BookingViewModel(get()) }
 }
