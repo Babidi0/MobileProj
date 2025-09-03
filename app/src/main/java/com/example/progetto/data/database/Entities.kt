@@ -27,7 +27,7 @@ data class Boat(
     @ColumnInfo val description: String,
     @ColumnInfo val name: String,
     @ColumnInfo val type: String,
-    @ColumnInfo val capienza: Int, //dopo cerca in inglese capienza
+    @ColumnInfo val capacity: Int,
 )
 
 @Entity(
@@ -52,8 +52,6 @@ data class Booking(
     @ColumnInfo val userId: Int,
     @ColumnInfo val idB: Int,
     @ColumnInfo val number: Int,
-    //@ColumnInfo val time:
-    //durata -> se servirà
 )
 
 @Entity

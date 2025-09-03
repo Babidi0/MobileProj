@@ -6,7 +6,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -14,11 +13,9 @@ import com.example.progetto.data.database.ProjDAO
 import com.example.progetto.data.repositories.ProjectRepository
 import com.example.progetto.ui.screen.BoatScreen
 import com.example.progetto.ui.screen.BookingForm
-import com.example.progetto.ui.screen.BookingScreen
 import com.example.progetto.ui.screen.BookingState
 import com.example.progetto.ui.screen.BookingViewModel
 import com.example.progetto.ui.screen.HomeScreen
-import com.example.progetto.ui.screen.LoadingScreen
 import com.example.progetto.ui.screen.LoginForm
 import com.example.progetto.ui.screen.ProfileScreen
 import com.example.progetto.ui.screen.RegistrazioneScreen
@@ -26,12 +23,7 @@ import com.example.progetto.ui.screen.ThemeScreen
 import com.example.progetto.ui.screen.ThemeState
 import com.example.progetto.ui.screen.ThemeViewModel
 import com.example.progetto.ui.screen.UserViewModel
-import org.koin.androidx.compose.koinViewModel
-import androidx.compose.runtime.LaunchedEffect
 import com.example.progetto.ui.Composable.BottomBar
-import com.example.progetto.utilities.BookingFormWrapper
-import com.example.progetto.utilities.BookingScreenWrapper
-
 
 sealed class NavigationRoute (
     val route: String
@@ -65,17 +57,17 @@ fun NavGraph(
         navController = navController,
         startDestination = NavigationRoute.Login.route
     ) {
-        // --- Login ---
+
         composable(NavigationRoute.Login.route) {
             LoginForm(userViewModel, navController)
         }
 
-        // --- Registrazione ---
+
         composable(NavigationRoute.Register.route) {
             RegistrazioneScreen(db, navController, userViewModel)
         }
 
-        // --- Home ---
+
         composable(NavigationRoute.Home.route) {
             TopBar(navController, userViewModel) {
                 HomeScreen(navController, userViewModel)
@@ -83,7 +75,7 @@ fun NavGraph(
             }
         }
 
-        // --- Profile ---
+
         composable(NavigationRoute.Profile.route) {
             TopBar(navController, userViewModel) {
                 ProfileScreen(navController, userViewModel, db, repository)
@@ -91,7 +83,7 @@ fun NavGraph(
             }
         }
 
-        // --- Booking ---
+
         composable(NavigationRoute.Booking.route) {
             TopBar(navController, userViewModel) {
                 if (sessionUser != null) {

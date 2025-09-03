@@ -11,7 +11,7 @@ import androidx.compose.material.icons.filled.Anchor
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Contacts
 import androidx.compose.material.icons.filled.Image
-import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 
 
 
-// TopBar.kt
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
@@ -121,6 +121,12 @@ fun TopBar(
                         icon = { Icon(Icons.Default.Image, contentDescription = "Boats") },
                         selected = false,
                         onClick = { navController.navigate(NavigationRoute.Boat.route) }
+                    )
+                    NavigationDrawerItem(
+                        label = { Text("ThemeChange") },
+                        icon = { Icon(Icons.Default.LightMode, contentDescription = "Theme") },
+                        selected = false,
+                        onClick = { navController.navigate(NavigationRoute.Theme.route) }
                     )
                 }
             }
